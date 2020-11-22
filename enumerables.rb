@@ -9,4 +9,13 @@ module Enumerables
     end
   end
 
+  #----------------my each with index----------#
+  def my_each_with_index
+    count = 0;
+    for x in tools
+      yield(count, x)
+      count = count +1
+    end 
+  end
+
 end
