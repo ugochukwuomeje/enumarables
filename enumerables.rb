@@ -40,4 +40,17 @@ module Enumerables
     result
   end
 
+  #-------------------#my_any---------------------#
+  def my_any
+    result = false
+    for x in tools
+      if(yield(x))
+        result = true
+      end
+    end
+    result
+  end
+
+  
+
 end
