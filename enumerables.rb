@@ -29,4 +29,15 @@ module Enumerables
     result
   end
   
+  #-------------------#my_all---------------------#
+  def my_all
+    result = true
+    for x in tools
+      if(!yield(x))
+        result = false
+      end
+    end
+    result
+  end
+
 end
