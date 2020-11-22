@@ -18,4 +18,15 @@ module Enumerables
     end 
   end
 
+  #----------------#my_select-------------------#
+  def my_select
+    result = []
+    for x in tools
+      if(yield(x))
+        result << x
+      end
+    end
+    result
+  end
+  
 end
