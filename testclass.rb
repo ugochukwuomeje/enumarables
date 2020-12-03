@@ -1,5 +1,4 @@
-(1..8).each_with_index do |x, y|
+name = {:one => "Ugo", :two => "dalu"}
+name.merge!({:three => "3"})
 
-print "The value is #{x}"
-p " the index is #{y}"
-end
+p name

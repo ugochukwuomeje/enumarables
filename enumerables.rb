@@ -5,22 +5,22 @@ module Enumerables
   def my_each
     return to_enum(:my_each) unless block_given?
     # your code here
-    x = self.to_a if self.class? == Array
+    x = self.to_a if self.class? == Hash
     x = self.to_a if self.class? ==  Range
 
-    for x in self
-      yield(x)
+    for y in x
+      yield(y)
     end
   end
 
   #----------------my each with index----------#
   def my_each_with_index
     return to_enum(:my_each) unless block_given?
-    x = self.to_a if self.class? == Array
+    x = self.to_a if self.class? == Hash
     x = self.to_a if self.class? ==  Range
     count = 0;
-    for x in self
-      yield(count, x)
+    for y in x
+      yield(count, y)
       count = count +1
     end 
   end
@@ -28,12 +28,13 @@ module Enumerables
   #----------------#my_select-------------------#
   def my_select
     return to_enum(:my_each) unless block_given?
-    x = self.to_a if self.class? == Array
+    x = self.to_a if self.class? == Hash
     x = self.to_a if self.class? ==  Range
     result = []
-    for x in self
-      if(yield(x))
-        result << x
+    position = 0
+    for y in x
+      if(yield(y))
+        result << x[position]
       end
     end
     result
@@ -42,11 +43,11 @@ module Enumerables
   #-------------------#my_all---------------------#
   def my_all
     return to_enum(:my_each) unless block_given?
-    x = self.to_a if self.class? == Array
+    x = self.to_a if self.class? == Hash
     x = self.to_a if self.class? ==  Range
     result = true
-    for x in self
-      if(!yield(x))
+    for y in x
+      if(!yield(y))
         result = false
       end
     end
@@ -56,31 +57,49 @@ module Enumerables
   #-------------------#my_any---------------------#
   def my_any
     return to_enum(:my_each) unless block_given?
-    x = self.to_a if self.class? == Array
+    x = self.to_a if self.class? == Hash
     x = self.to_a if self.class? ==  Range
-    result = false
-    for x in self
-      if(yield(x))
-        result = true
+    for y in x
+      if(yield(y))
+       return  true
       end
     end
-    result
+    return false
   end
 
   #-------------------#my_any---------------------#
   def my_none
     return to_enum(:my_each) unless block_given?
-    x = self.to_a if self.class? == Array
+    x = self.to_a if self.class? == Hash
     x = self.to_a if self.class? ==  Range
     result = true
-    for x in self
-      if(yield(x))
+    for y in x
+      if(yield(y))
         result = false
       end
     end
     result
   end
 
+  #------------------#none-------------------------#
+  def my_count(param = nil)
+    
+  if block_given?
+    count = 0;
+    x = self.to_a if self.class? == Hash
+    x = self.to_a if self.class? ==  Range
+      for y in x
+        if(yield(y))
+          count = count + 1
+        end
+      end
+        return count
+    elsif !block_given? and param == nil
+      x.length
+    else
+      x.my_each { |num| count +=1 if num == param}
+      return count
 end
 
-[2,3,5,8].my_each {|numbers| puts numbers}
+
+#[2,3,5,8].
