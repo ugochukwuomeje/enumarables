@@ -101,5 +101,17 @@ module Enumerables
       return count
 end
 
+#----------#my_map-------------------------------#
+def my_map
+  return to_enum(:my_each) unless block_given?
+    x = self.to_a if self.class? == Hash
+    x = self.to_a if self.class? ==  Range
+    result = []
+    x.my_each {|val| result << yield(val)}
+  result
+end
 
-#[2,3,5,8].
+
+
+
+[2,3,5,8].
