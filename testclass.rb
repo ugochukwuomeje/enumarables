@@ -1,4 +1,1 @@
-name = {:one => "Ugo", :two => "dalu"}
-name.merge!({:three => "3"})
-
-p name
+p [2,3,8,4].length

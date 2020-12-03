@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-module Enumerables
+module Enumerable
   #-------------my each method----------------#
   def my_each
     return to_enum(:my_each) unless block_given?
@@ -98,6 +98,7 @@ module Enumerables
       x.length
     else
       x.my_each { |num| count +=1 if num == param}
+    end
       return count
 end
 
@@ -111,42 +112,53 @@ def my_map
   result
 end
 
-#-------------#my_inject-------------------------#
-def my_inject(value = nil)
+  #-------------#my_inject-------------------------#
+  def my_inject(value = nil)
 
-  x = self.to_a if self.class == Range : self
-  
-  if(value == nil)
-    counter = 1
-    until  counter >= x.length -1
-      if(counter == 1)
-        result = yield(x[0], x[1])
-      else
-        result = yield(result, x[counter])
+    if (self.class == Range )
+      x = self.to_a 
+    else
+      x = self
+    end
+    
+    if(value == nil)
+      counter = 1
+      until  counter >= (x.length -1)
+        if(counter == 1)
+          result = yield(x[0], x[1])
+        else
+          result = yield(result, x[counter])
+        end
+        counter+=1
       end
-      counter+=1
+      result
     end
-  end
-  if(value.class == Integer)
-    counter = 0
-    result = value
-    until  counter >= x.length -1
-        result = yield(result, x[counter])
-        counter+=1
-    end
-    return result
-  end
-  if(value.class == Hash)
-    counter = 0
-    result = value
-    until  counter >= x.length -1
-        value = yield(value, x[counter])
-        counter+=1
-    end
-    return result
-  end
 
+    if(value.class == Integer)
+      counter = 0
+      result = value
+      until  counter >= (x.length -1)
+          result = yield(result, x[counter])
+          counter+=1
+      end
+      result
+    end
+    if(value.class == Hash)
+      counter = 0
+      result = value
+      until  counter >= (x.length -1)
+          value = yield(value, x[counter])
+          counter+=1
+      end
+      result
+    end
+
+  end
 end
 
 
-#[2,3,5,8].
+def multiply_els(arr)
+  arr.my_inject{|value, x| value *= x}
+end
+
+puts multiply_els([2, 4, 5])
