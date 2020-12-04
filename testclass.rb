@@ -1,1 +1,1 @@
-p [2,3,8,4].length
+p "i".class
