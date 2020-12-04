@@ -11,6 +11,7 @@ module Enumerable
     for y in x
       yield(y)
     end
+    
   end
 
   #----------------my each with index----------#
@@ -103,12 +104,16 @@ module Enumerable
 end
 
 #----------#my_map-------------------------------#
-def my_map
-  return to_enum(:my_each) unless block_given?
+def my_map(my_proc = nil)
+  
     x = self.to_a if self.class == Hash
     x = self.to_a if self.class ==  Range
     result = []
-    x.my_each {|val| result << yield(val)}
+    if(my_proc.nil? && block_given?)
+      x.my_each {|val| result << yield(val)}
+    else
+      x.my_each{|value| result << my_proc.call(value)}
+    end
   result
 end
 
@@ -177,10 +182,36 @@ end
 end
 
 # 10.multiply_els
+#------------------testing the inject method----------------------#
 def multiply_els(arr)
   arr.my_inject("+")
 end
 
 multiply_els([2, 4, 5])
+#--------------------testing the my_each method-------------------#
+[2,5,8].my_each{|y| p "#{y}" }
 
-(5..10).my_inject(1){ |product, n| product * n }
+#------------testing each with index------------------------------#
+[2,5,8].my_each_with_index{|index, value| p "The index is #{index} the value #{value}" }
+
+#-------------testing the my_select method------------------------#
+%w[bird cow goat leaves].my_select{|value| value.length > 4}
+
+#---------------------------testing my_all method-----------------#
+[2,4,5,"come", nil].my_all?{|value| value.class == Integer}
+
+#----------------------------testing my_any method-----------------#
+[2,4,5,"come", nil].my_any?{|value| value.class == Integer}
+
+#----------------------------testing my_none method-----------------#
+[2,4,5,"come", nil].none?{|value| value.class == Integer}
+
+#----------------------------testing my_count-----------------#
+[2,4,5,"come", nil].count
+
+#--------------------------my_map----------------------------#
+evenNumbers = proc.new {
+  |value| value.even?
+}
+
+[2,4,5,7, 8].my_map(evenNumbers)

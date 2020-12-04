@@ -1,1 +1,1 @@
-p "i".class
+p ["come", nil].count
