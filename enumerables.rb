@@ -9,9 +9,8 @@ module Enumerable
     x = to_a if self.class == Hash
     x = to_a if self.class == Range
 
-    x.each do |y|
-      yield(y)
-    end
+    count = 0
+    yield(x[count]) while count < x.length
   end
 
   #----------------my each with index----------#
@@ -21,8 +20,8 @@ module Enumerable
     x = to_a if self.class == Hash
     x = to_a if self.class == Range
     count = 0
-    x.each do |y|
-      yield(count, y)
+    while count < x.length
+      yield(count, x[count])
       count += 1
     end
   end
@@ -35,7 +34,7 @@ module Enumerable
     x = to_a if self.class == Range
     result = []
     position = 0
-    x.each do |y|
+    x.my_each do |y|
       result << x[position] if yield(y)
     end
     result
@@ -48,7 +47,7 @@ module Enumerable
     x = to_a if self.class == Hash
     x = to_a if self.class == Range
     result = true
-    x.each do |y|
+    x.my_each do |y|
       result = false unless yield(y)
     end
     result
@@ -60,7 +59,7 @@ module Enumerable
 
     x = to_a if self.class == Hash
     x = to_a if self.class == Range
-    x.each do |y|
+    x.my_each do |y|
       return true if yield(y)
     end
     false
@@ -73,7 +72,7 @@ module Enumerable
     x = to_a if self.class == Hash
     x = to_a if self.class == Range
     result = true
-    x.each do |y|
+    x.my_each do |y|
       result = false if yield(y)
     end
     result
@@ -85,7 +84,7 @@ module Enumerable
       count = 0
       x = to_a if self.class == Hash
       x = to_a if self.class == Range
-      x.each do |y|
+      x.my_each do |y|
         count += 1 if yield(y)
       end
       return count
@@ -93,9 +92,9 @@ module Enumerable
       x.length
     else
       x.my_each { |num| count += 1 if num == param }
-    end
+      end
     count
-  end
+end
 
   #----------#my_map-------------------------------#
   def my_map(my_proc = nil)
@@ -121,6 +120,7 @@ module Enumerable
     if operation.nil? && ((value.class == Symbol) || (value.class == String) && !block_given?)
       counter = 1
       operation = value
+      value = nil
       until counter >= x.length
         result = if counter == 1
                    x[0].send(operation, x[1])
