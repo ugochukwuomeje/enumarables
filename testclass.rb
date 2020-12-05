@@ -1,1 +1,1 @@
-p ["come", nil].count
+p Integer.ancestors
