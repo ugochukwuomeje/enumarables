@@ -2,6 +2,8 @@
 
 This project involves creating and using closures and methods in Ruby. It is part of the Microverse program in which we have to rebuild some enumerable methods in Ruby and apply them in a program.
 
+![Readme file screenshot](readme_screenshot.png)
+
 Built with
 
 - Ruby
