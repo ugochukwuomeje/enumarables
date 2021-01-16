@@ -8,7 +8,10 @@ module Enumerable
 
     x = to_a
     count = 0
-    yield(x[count]) while count < x.length
+    while count < x.length
+      yield(x[count])
+      count += 1
+    end
   end
 
   #----------------my each with index----------#
@@ -33,7 +36,7 @@ module Enumerable
     x.my_each do |y|
       result << x[position] if yield(y)
     end
-    result
+    p result
   end
 
   #-------------------#my_all---------------------#
@@ -124,13 +127,13 @@ module Enumerable
   end
 end
 
-# 10.multiply_els
-#------------------testing the inject method----------------------#
-def multiply_els(arr)
-  arr.my_inject('+')
-end
-
-multiply_els([2, 4, 5])
-
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/PerceivedComplexity
+
+# 10.multiply_els
+#------------------testing the inject method----------------------#
+# def multiply_els(arr)
+#   arr.my_inject('+')
+# end
+
+%w[bird cow goat leaves].my_select { |value| value.length > 4 }
